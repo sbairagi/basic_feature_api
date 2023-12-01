@@ -144,27 +144,27 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.mysql',
-                'NAME': "finalapi",
-                'USER': "admin",
-                'PASSWORD': "89lcacqz",
-                'HOST': "mysql-154848-0.cloudclusters.net",
-                'PORT': "19501",
-                'OPTIONS': {
-                    'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-                    'charset': 'utf8mb4',
-                }
-            }
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+# DATABASES = {
+#             'default': {
+#                 'ENGINE': 'django.db.backends.mysql',
+#                 'NAME': "finalapi",
+#                 'USER': "admin",
+#                 'PASSWORD': "89lcacqz",
+#                 'HOST': "mysql-154848-0.cloudclusters.net",
+#                 'PORT': "19501",
+#                 'OPTIONS': {
+#                     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#                     'charset': 'utf8mb4',
+#                 }
+#             }
+#         }
 
 
 
