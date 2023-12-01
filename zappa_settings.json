@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "aws_region": "ap-south-1",
+        "django_settings": "finalapi.settings",
+        "profile_name": "default",
+        "project_name": "finalapi",
+        "runtime": "python3.9",
+        "s3_bucket": "zappa-2r2gh2tqc"
+    }
+}
