@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+hi#!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
@@ -35,19 +35,18 @@ def calculate_delivery_schedule(start, end, total_target, frequency, delivery_da
         if current_date.strftime("%A") in delivery_days:
             delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
             
-            if frequency == "weekly":
-                current_date += timedelta(weeks=1)
-            elif frequency == "biweekly":
-                current_date += timedelta(weeks=2)
-            elif frequency == "monthly":
-                current_date = (current_date + timedelta(days=31)).replace(day=1)
-            elif frequency == "quarterly":
-                current_date = (current_date + timedelta(days=92)).replace(day=1)
-            elif frequency == "halfyearly":
-                current_date = (current_date + timedelta(days=183)).replace(day=1)
-            elif frequency == "yearly":
-                current_date = current_date.replace(day=1, month=1, year=current_date.year + 1)
-            
+        if frequency == "weekly":
+            current_date += timedelta(weeks=1)
+        elif frequency == "biweekly":
+            current_date += timedelta(weeks=2)
+        elif frequency == "monthly":
+            current_date = (current_date + timedelta(days=31)).replace(day=1)
+        elif frequency == "quarterly":
+            current_date = (current_date + timedelta(days=92)).replace(day=1)
+        elif frequency == "halfyearly":
+            current_date = (current_date + timedelta(days=183)).replace(day=1)
+        elif frequency == "yearly":
+            current_date = current_date.replace(day=1, month=1, year=current_date.year + 1)
         else:
             current_date += timedelta(days=1)
     
