@@ -1,4 +1,4 @@
-hi#!/usr/bin/env python
+I hi#!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
@@ -21,7 +21,7 @@ def main():
 if __name__ == '__main__':
     main()
     
-    
+
 from datetime import datetime, timedelta
 
 def calculate_delivery_schedule(start, end, total_target, frequency, delivery_days):
@@ -32,9 +32,10 @@ def calculate_delivery_schedule(start, end, total_target, frequency, delivery_da
     
     while current_date <= end_date:
         if current_date.strftime("%A") in delivery_days:
-            if current_date.strftime("%Y-%m-%d") not in delivery_schedule:
-                delivery_schedule[current_date.strftime("%Y-%m-%d")] = 0
-            delivery_schedule[current_date.strftime("%Y-%m-%d")] += total_target / len(delivery_days)
+            delivery_date_str = current_date.strftime("%Y-%m-%d")
+            if delivery_date_str not in delivery_schedule:
+                delivery_schedule[delivery_date_str] = 0
+            delivery_schedule[delivery_date_str] += total_target / len(delivery_days)
         
         if frequency == "weekly":
             current_date += timedelta(weeks=1)
