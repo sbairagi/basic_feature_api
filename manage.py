@@ -34,9 +34,7 @@ def calculate_delivery_schedule(start, end, total_target, frequency, delivery_da
     while current_date <= end_date:
         if current_date.strftime("%A") in delivery_days:
             delivery_date_str = current_date.strftime("%Y-%m-%d")
-            if delivery_date_str not in delivery_schedule:
-                delivery_schedule[delivery_date_str] = 0
-            delivery_schedule[delivery_date_str] += total_target / len(delivery_days)
+            delivery_schedule[delivery_date_str] = delivery_schedule.get(delivery_date_str, 0) + total_target / len(delivery_days)
         
         if frequency == "weekly":
             current_date += timedelta(weeks=1)
