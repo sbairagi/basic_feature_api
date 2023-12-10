@@ -34,7 +34,7 @@ def calculate_delivery_schedule(start, end, total_target, frequency, delivery_da
     while current_date <= end_date:
         if current_date.strftime("%A") in delivery_days:
             delivery_date_str = current_date.strftime("%Y-%m-%d")
-            delivery_schedule[delivery_date_str] = delivery_schedule.get(delivery_date_str, 0) + total_target / len(delivery_days)
+            delivery_schedule[delivery_date_str] = total_target / len(delivery_days)
         
         if frequency == "weekly":
             current_date += timedelta(weeks=1)
@@ -42,12 +42,6 @@ def calculate_delivery_schedule(start, end, total_target, frequency, delivery_da
             current_date += timedelta(weeks=2)
         elif frequency == "monthly":
             current_date = (current_date + timedelta(days=31)).replace(day=1)
-        elif frequency == "quarterly":
-            current_date = (current_date + timedelta(days=92)).replace(day=1)
-        elif frequency == "halfyearly":
-            current_date = (current_date + timedelta(days=183)).replace(day=1)
-        elif frequency == "yearly":
-            current_date = current_date.replace(day=1, month=1, year=current_date.year + 1)
         else:
             current_date += timedelta(days=1)
     
