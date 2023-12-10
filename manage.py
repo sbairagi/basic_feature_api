@@ -23,69 +23,35 @@ if __name__ == '__main__':
     
     
     
-from datetime import timedelta, datetime
-
-def generate_lead_scores(start_date, end_date, total_target, frequency, day_of_delivery):
-    lead_scores = {}
-    current_date = start_date
-    leads_per_schedule = total_target // ((end_date - start_date).days // frequency + 1)
-    remaining_leads = total_target % ((end_date - start_date).days // frequency + 1)
-
-    while current_date <= end_date:
-        if current_date.weekday() == day_of_delivery:
-            lead_scores[current_date.strftime('%Y-%m-%d')] = leads_per_schedule
-
-        current_date += timedelta(days=frequency)
-
-    # Distribute remaining leads starting from the first scheduled date
-    current_date = start_date
-    while remaining_leads > 0:
-        if current_date.weekday() == day_of_delivery:
-            lead_scores[current_date.strftime('%Y-%m-%d')] += 1
-            remaining_leads -= 1
-
-        current_date += timedelta(days=frequency)
-
-    return lead_scores
-
-# Example usage:
-start_date = datetime(2023, 1, 1)
-end_date = datetime(2023, 12, 31)
-total_target = 15
-frequency = 7  # Number of days between each delivery
-day_of_delivery = 2  # Assuming 0 is Monday, 1 is Tuesday, and so on
-
-result = generate_lead_scores(start_date, end_date, total_target, frequency, day_of_delivery)
-print(result)
-
-
-
 from datetime import datetime, timedelta
 
-def calculate_delivery_schedule(start, end, total_target, frequency, delivery_day):
+def calculate_delivery_schedule(start, end, total_target, frequency, delivery_days):
     delivery_schedule = {}
     
     current_date = datetime.strptime(start, "%Y-%m-%d")
     end_date = datetime.strptime(end, "%Y-%m-%d")
     
     while current_date <= end_date:
-        if current_date.strftime("%A") == delivery_day:
-            monthly_target = total_target / frequency
-            remaining_target = total_target
+        if current_date.strftime("%A") in delivery_days:
+            if frequency == "weekly":
+                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
+                current_date += timedelta(weeks=1)
+            elif frequency == "biweekly":
+                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
+                current_date += timedelta(weeks=2)
+            elif frequency == "monthly":
+                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
+                current_date = current_date.replace(day=1) + timedelta(days=31)  # assuming max 31 days in a month
+            elif frequency == "quarterly":
+                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
+                current_date = current_date.replace(day=1) + timedelta(days=92)  # assuming max 92 days in a quarter
+            elif frequency == "halfyearly":
+                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
+                current_date = current_date.replace(day=1) + timedelta(days=183)  # assuming max 183 days in half a year
+            elif frequency == "yearly":
+                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
+                current_date = current_date.replace(day=1, month=1, year=current_date.year + 1)
             
-            for _ in range(frequency):
-                if current_date <= end_date:
-                    delivery_schedule[current_date.strftime("%Y-%m-%d")] = round(monthly_target, 2)
-                    remaining_target -= monthly_target
-                    current_date += timedelta(days=30)  # assuming 30 days in a month for simplicity
-            
-            if remaining_target > 0:
-                for _ in range(int(remaining_target)):
-                    if current_date <= end_date:
-                        delivery_schedule[current_date.strftime("%Y-%m-%d")] += 1
-                        remaining_target -= 1
-                        current_date += timedelta(days=30)
-        
         else:
             current_date += timedelta(days=1)
     
@@ -95,10 +61,9 @@ def calculate_delivery_schedule(start, end, total_target, frequency, delivery_da
 start_date = "2023-01-01"
 end_date = "2023-12-31"
 total_target = 100
-frequency = 2  # Assuming deliveries happen every 2 months
-delivery_day = "Monday"
+frequency = "weekly"
+delivery_days = ["Monday", "Tuesday"]
 
-result = calculate_delivery_schedule(start_date, end_date, total_target, frequency, delivery_day)
+result = calculate_delivery_schedule(start_date, end_date, total_target, frequency, delivery_days)
 print(result)
-
 
