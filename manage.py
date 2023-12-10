@@ -61,4 +61,3 @@ delivery_days = ["Monday", "Tuesday"]
 
 result = calculate_delivery_schedule(start_date, end_date, total_target, frequency, delivery_days)
 print(result)
-
