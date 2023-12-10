@@ -33,23 +33,19 @@ def calculate_delivery_schedule(start, end, total_target, frequency, delivery_da
     
     while current_date <= end_date:
         if current_date.strftime("%A") in delivery_days:
+            delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
+            
             if frequency == "weekly":
-                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
                 current_date += timedelta(weeks=1)
             elif frequency == "biweekly":
-                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
                 current_date += timedelta(weeks=2)
             elif frequency == "monthly":
-                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
-                current_date = current_date.replace(day=1) + timedelta(days=31)  # assuming max 31 days in a month
+                current_date = (current_date + timedelta(days=31)).replace(day=1)
             elif frequency == "quarterly":
-                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
-                current_date = current_date.replace(day=1) + timedelta(days=92)  # assuming max 92 days in a quarter
+                current_date = (current_date + timedelta(days=92)).replace(day=1)
             elif frequency == "halfyearly":
-                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
-                current_date = current_date.replace(day=1) + timedelta(days=183)  # assuming max 183 days in half a year
+                current_date = (current_date + timedelta(days=183)).replace(day=1)
             elif frequency == "yearly":
-                delivery_schedule[current_date.strftime("%Y-%m-%d")] = total_target / len(delivery_days)
                 current_date = current_date.replace(day=1, month=1, year=current_date.year + 1)
             
         else:
