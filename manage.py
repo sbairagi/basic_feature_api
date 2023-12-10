@@ -58,3 +58,47 @@ day_of_delivery = 2  # Assuming 0 is Monday, 1 is Tuesday, and so on
 result = generate_lead_scores(start_date, end_date, total_target, frequency, day_of_delivery)
 print(result)
 
+
+
+from datetime import datetime, timedelta
+
+def calculate_delivery_schedule(start, end, total_target, frequency, delivery_day):
+    delivery_schedule = {}
+    
+    current_date = datetime.strptime(start, "%Y-%m-%d")
+    end_date = datetime.strptime(end, "%Y-%m-%d")
+    
+    while current_date <= end_date:
+        if current_date.strftime("%A") == delivery_day:
+            monthly_target = total_target / frequency
+            remaining_target = total_target
+            
+            for _ in range(frequency):
+                if current_date <= end_date:
+                    delivery_schedule[current_date.strftime("%Y-%m-%d")] = round(monthly_target, 2)
+                    remaining_target -= monthly_target
+                    current_date += timedelta(days=30)  # assuming 30 days in a month for simplicity
+            
+            if remaining_target > 0:
+                for _ in range(int(remaining_target)):
+                    if current_date <= end_date:
+                        delivery_schedule[current_date.strftime("%Y-%m-%d")] += 1
+                        remaining_target -= 1
+                        current_date += timedelta(days=30)
+        
+        else:
+            current_date += timedelta(days=1)
+    
+    return delivery_schedule
+
+# Example usage:
+start_date = "2023-01-01"
+end_date = "2023-12-31"
+total_target = 100
+frequency = 2  # Assuming deliveries happen every 2 months
+delivery_day = "Monday"
+
+result = calculate_delivery_schedule(start_date, end_date, total_target, frequency, delivery_day)
+print(result)
+
+
